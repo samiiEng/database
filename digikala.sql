@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2022 at 11:34 AM
+-- Generation Time: Jul 17, 2022 at 11:43 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -306,7 +306,25 @@ CREATE TABLE `routes` (
 CREATE TABLE `routes_roles` (
   `route_role_id` int(11) NOT NULL,
   `route_ref_id` int(11) NOT NULL,
-  `role_ref_id` int(11) NOT NULL
+  `role_ref_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `routes_users_vendors`
+--
+
+CREATE TABLE `routes_users_vendors` (
+  `route_user_vendor_id` int(11) NOT NULL,
+  `route_ref_id` int(11) NOT NULL,
+  `user_vendor_ref_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -516,6 +534,14 @@ ALTER TABLE `routes_roles`
   ADD KEY `role_ref_id_2` (`role_ref_id`);
 
 --
+-- Indexes for table `routes_users_vendors`
+--
+ALTER TABLE `routes_users_vendors`
+  ADD PRIMARY KEY (`route_user_vendor_id`),
+  ADD KEY `route_ref_id_3` (`route_ref_id`),
+  ADD KEY `user_vendor_ref_id_2` (`user_vendor_ref_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -639,6 +665,13 @@ ALTER TABLE `products`
 ALTER TABLE `routes_roles`
   ADD CONSTRAINT `role_ref_id_2` FOREIGN KEY (`role_ref_id`) REFERENCES `roles` (`role_id`),
   ADD CONSTRAINT `route_ref_id_1` FOREIGN KEY (`route_ref_id`) REFERENCES `routes` (`route_id`);
+
+--
+-- Constraints for table `routes_users_vendors`
+--
+ALTER TABLE `routes_users_vendors`
+  ADD CONSTRAINT `route_ref_id_3` FOREIGN KEY (`route_ref_id`) REFERENCES `routes` (`route_id`),
+  ADD CONSTRAINT `user_vendor_ref_id_2` FOREIGN KEY (`user_vendor_ref_id`) REFERENCES `users_vendors` (`user_vendor_id`);
 
 --
 -- Constraints for table `users_vendors`
