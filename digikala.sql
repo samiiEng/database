@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2022 at 12:40 PM
+-- Generation Time: Jul 17, 2022 at 12:57 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -96,7 +96,7 @@ CREATE TABLE `categories` (
   `category_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `category_ref_id` int(11) DEFAULT NULL,
-  `if_last` binary(1) DEFAULT NULL,
+  `if_last` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -187,6 +187,22 @@ CREATE TABLE `comments` (
 CREATE TABLE `countries` (
   `country_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `coupon_id` int(11) NOT NULL,
+  `user_ref_id` int(11) NOT NULL,
+  `user_vendor_ref_id` int(11) NOT NULL,
+  `value` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -465,6 +481,14 @@ ALTER TABLE `countries`
   ADD PRIMARY KEY (`country_id`);
 
 --
+-- Indexes for table `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`coupon_id`),
+  ADD KEY `user_ref_id_16` (`user_ref_id`),
+  ADD KEY `user_vendor_ref_id_4` (`user_vendor_ref_id`);
+
+--
 -- Indexes for table `discounts`
 --
 ALTER TABLE `discounts`
@@ -612,6 +636,13 @@ ALTER TABLE `categories_products_meta`
 ALTER TABLE `comments`
   ADD CONSTRAINT `product_ref_id_5` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`),
   ADD CONSTRAINT `user_ref_id_7` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `coupons`
+--
+ALTER TABLE `coupons`
+  ADD CONSTRAINT `user_ref_id_16` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `user_vendor_ref_id_4` FOREIGN KEY (`user_vendor_ref_id`) REFERENCES `users_vendors` (`user_vendor_id`);
 
 --
 -- Constraints for table `discounts`
