@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2022 at 10:08 AM
+-- Generation Time: Jul 17, 2022 at 11:34 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -251,7 +251,8 @@ CREATE TABLE `products` (
   `model` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `product_ref_id` int(11) NOT NULL COMMENT 'parent id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -485,7 +486,8 @@ ALTER TABLE `orders`
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`);
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `product_ref_id_12` (`product_ref_id`);
 
 --
 -- Indexes for table `provinces`
@@ -624,6 +626,12 @@ ALTER TABLE `discounts`
 ALTER TABLE `orders`
   ADD CONSTRAINT `basket_ref_id_1` FOREIGN KEY (`basket_ref_id`) REFERENCES `baskets` (`basket_id`),
   ADD CONSTRAINT `product_ref_id_9` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `product_ref_id_12` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
 
 --
 -- Constraints for table `routes_roles`
