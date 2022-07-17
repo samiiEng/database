@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2022 at 12:57 PM
+-- Generation Time: Jul 17, 2022 at 01:13 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -333,6 +333,24 @@ CREATE TABLE `routes_users_vendors` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tickets`
+--
+
+CREATE TABLE `tickets` (
+  `ticket_id` int(11) NOT NULL,
+  `user_ref_id` int(11) NOT NULL,
+  `role_ref_id` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -546,6 +564,14 @@ ALTER TABLE `routes_users_vendors`
   ADD KEY `user_vendor_ref_id_2` (`user_vendor_ref_id`);
 
 --
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD PRIMARY KEY (`ticket_id`),
+  ADD KEY `user_ref_id_17` (`user_ref_id`),
+  ADD KEY `role_ref_id_3` (`role_ref_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -677,6 +703,13 @@ ALTER TABLE `routes_roles`
 ALTER TABLE `routes_users_vendors`
   ADD CONSTRAINT `route_ref_id_3` FOREIGN KEY (`route_ref_id`) REFERENCES `routes` (`route_id`),
   ADD CONSTRAINT `user_vendor_ref_id_2` FOREIGN KEY (`user_vendor_ref_id`) REFERENCES `users_vendors` (`user_vendor_id`);
+
+--
+-- Constraints for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD CONSTRAINT `role_ref_id_3` FOREIGN KEY (`role_ref_id`) REFERENCES `roles` (`role_id`),
+  ADD CONSTRAINT `user_ref_id_17` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `users_vendors`
