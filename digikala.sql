@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2022 at 11:37 PM
+-- Generation Time: Jul 17, 2022 at 10:08 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -120,12 +120,42 @@ CREATE TABLE `categories` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `categories_meta`
+--
+
+CREATE TABLE `categories_meta` (
+  `category_meta_id` int(11) NOT NULL,
+  `category_ref_id` int(11) NOT NULL,
+  `attribute` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories_products`
 --
 
 CREATE TABLE `categories_products` (
   `category_product_id` int(11) NOT NULL,
   `category_ref_id` int(11) NOT NULL,
+  `product_ref_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories_products_meta`
+--
+
+CREATE TABLE `categories_products_meta` (
+  `category_product_meta_id` int(11) NOT NULL,
+  `category_meta_ref_id` int(11) NOT NULL,
   `product_ref_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -393,12 +423,27 @@ ALTER TABLE `categories`
   ADD KEY `category_ref_id_1` (`category_ref_id`);
 
 --
+-- Indexes for table `categories_meta`
+--
+ALTER TABLE `categories_meta`
+  ADD PRIMARY KEY (`category_meta_id`),
+  ADD KEY `category_ref_id_10` (`category_ref_id`);
+
+--
 -- Indexes for table `categories_products`
 --
 ALTER TABLE `categories_products`
   ADD PRIMARY KEY (`category_product_id`),
   ADD KEY `product_ref_id_2` (`product_ref_id`),
   ADD KEY `category_ref_id_2` (`category_ref_id`);
+
+--
+-- Indexes for table `categories_products_meta`
+--
+ALTER TABLE `categories_products_meta`
+  ADD PRIMARY KEY (`category_product_meta_id`),
+  ADD KEY `category_meta_ref_id_1` (`category_meta_ref_id`),
+  ADD KEY `product_ref_id_11` (`product_ref_id`);
 
 --
 -- Indexes for table `cities`
@@ -540,11 +585,24 @@ ALTER TABLE `categories`
   ADD CONSTRAINT `category_ref_id_1` FOREIGN KEY (`category_ref_id`) REFERENCES `categories` (`category_id`);
 
 --
+-- Constraints for table `categories_meta`
+--
+ALTER TABLE `categories_meta`
+  ADD CONSTRAINT `category_ref_id_10` FOREIGN KEY (`category_ref_id`) REFERENCES `categories` (`category_id`);
+
+--
 -- Constraints for table `categories_products`
 --
 ALTER TABLE `categories_products`
   ADD CONSTRAINT `category_ref_id_2` FOREIGN KEY (`category_ref_id`) REFERENCES `categories` (`category_id`),
   ADD CONSTRAINT `product_ref_id_2` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
+
+--
+-- Constraints for table `categories_products_meta`
+--
+ALTER TABLE `categories_products_meta`
+  ADD CONSTRAINT `category_meta_ref_id_1` FOREIGN KEY (`category_meta_ref_id`) REFERENCES `categories_meta` (`category_meta_id`),
+  ADD CONSTRAINT `product_ref_id_11` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
 
 --
 -- Constraints for table `comments`
