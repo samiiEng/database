@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2022 at 11:46 AM
+-- Generation Time: Jul 17, 2022 at 12:35 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -72,26 +72,12 @@ CREATE TABLE `attributes_products` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `baskets`
---
-
-CREATE TABLE `baskets` (
-  `basket_id` int(11) NOT NULL,
-  `user_ref_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `carts`
 --
 
 CREATE TABLE `carts` (
   ` cart_id` int(11) NOT NULL,
-  `basket_ref_id` int(11) NOT NULL,
+  `user_ref_id` int(11) NOT NULL,
   `product_ref_id` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
   `status` varchar(50) NOT NULL,
@@ -231,7 +217,7 @@ CREATE TABLE `discounts` (
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
-  `basket_ref_id` int(11) NOT NULL,
+  `user_ref_id` int(11) NOT NULL,
   `product_ref_id` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
@@ -421,19 +407,12 @@ ALTER TABLE `attributes_products`
   ADD KEY `attribute_ref_id_2` (`attribute_ref_id`);
 
 --
--- Indexes for table `baskets`
---
-ALTER TABLE `baskets`
-  ADD PRIMARY KEY (`basket_id`),
-  ADD KEY `user_ref_id_8` (`user_ref_id`);
-
---
 -- Indexes for table `carts`
 --
 ALTER TABLE `carts`
   ADD PRIMARY KEY (` cart_id`),
   ADD KEY `product_ref_id_10` (`product_ref_id`),
-  ADD KEY `basket_ref_id_2` (`basket_ref_id`);
+  ADD KEY `user_ref_id_15` (`user_ref_id`);
 
 --
 -- Indexes for table `categories`
@@ -498,8 +477,8 @@ ALTER TABLE `discounts`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `basket_ref_id_1` (`basket_ref_id`),
-  ADD KEY `product_ref_id_9` (`product_ref_id`);
+  ADD KEY `product_ref_id_9` (`product_ref_id`),
+  ADD KEY `user_ref_id_14` (`user_ref_id`);
 
 --
 -- Indexes for table `products`
@@ -595,17 +574,11 @@ ALTER TABLE `attributes_products`
   ADD CONSTRAINT `product_ref_id_4` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
 
 --
--- Constraints for table `baskets`
---
-ALTER TABLE `baskets`
-  ADD CONSTRAINT `user_ref_id_8` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
-
---
 -- Constraints for table `carts`
 --
 ALTER TABLE `carts`
-  ADD CONSTRAINT `basket_ref_id_2` FOREIGN KEY (`basket_ref_id`) REFERENCES `baskets` (`basket_id`),
-  ADD CONSTRAINT `product_ref_id_10` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
+  ADD CONSTRAINT `product_ref_id_10` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`),
+  ADD CONSTRAINT `user_ref_id_15` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `categories`
@@ -651,8 +624,8 @@ ALTER TABLE `discounts`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `basket_ref_id_1` FOREIGN KEY (`basket_ref_id`) REFERENCES `baskets` (`basket_id`),
-  ADD CONSTRAINT `product_ref_id_9` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
+  ADD CONSTRAINT `product_ref_id_9` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`),
+  ADD CONSTRAINT `user_ref_id_14` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `products`
