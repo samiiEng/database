@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2022 at 01:14 PM
+-- Generation Time: Jul 19, 2022 at 01:17 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -217,7 +217,6 @@ CREATE TABLE `products` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(100) NOT NULL,
   `stars` float NOT NULL,
-  `price` float NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -227,20 +226,20 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `name`, `stars`, `price`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'عسل گون شیگوار', 3, 150000, '2022-07-18 16:00:36', NULL, NULL),
-(2, 'عسل جیران', 3.2, 145000, '2022-07-18 16:00:42', NULL, NULL),
-(3, 'مربا آلبالو بیژن', 3.41, 100000, '2022-07-18 16:00:47', NULL, NULL),
-(4, 'مربا انجیر سحر', 3.6, 120000, '2022-07-18 16:00:50', NULL, NULL),
-(5, 'ماست پرچرب سون', 4, 50000, '2022-07-18 16:00:53', NULL, NULL),
-(6, 'ماست پروبیوتیک سون', 4, 70000, '2022-07-18 16:00:57', NULL, NULL),
-(7, 'ماست کم چرب میهن', 4, 40000, '2022-07-18 16:01:01', NULL, NULL),
-(8, 'پیراهن مردانه کد 123', 3, 600000, '2022-07-18 16:01:05', NULL, NULL),
-(9, 'کفش مردانه کد 321', 2.5, 900000, '2022-07-18 16:01:10', NULL, NULL),
-(10, 'تیشرت زنانه مدل 123', 4.2, 800000, '2022-07-18 16:01:13', NULL, NULL),
-(11, 'کفش زنانه مدل 23', 1.5, 900000, '2022-07-18 16:01:16', NULL, NULL),
-(12, 'لپتاپ ایسوس مدل x515', 4.5, 20000000, '2022-07-18 16:01:24', NULL, NULL),
-(13, 'لپتاپ ام اس آی مدل 123', 5, 40000000, '2022-07-18 16:10:43', NULL, NULL);
+INSERT INTO `products` (`product_id`, `name`, `stars`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'عسل گون شیگوار', 3, '2022-07-18 16:00:36', NULL, NULL),
+(2, 'عسل جیران', 3.2, '2022-07-18 16:00:42', NULL, NULL),
+(3, 'مربا آلبالو بیژن', 3.41, '2022-07-18 16:00:47', NULL, NULL),
+(4, 'مربا انجیر سحر', 3.6, '2022-07-18 16:00:50', NULL, NULL),
+(5, 'ماست پرچرب سون', 4, '2022-07-18 16:00:53', NULL, NULL),
+(6, 'ماست پروبیوتیک سون', 4, '2022-07-18 16:00:57', NULL, NULL),
+(7, 'ماست کم چرب میهن', 4, '2022-07-18 16:01:01', NULL, NULL),
+(8, 'پیراهن مردانه کد 123', 3, '2022-07-18 16:01:05', NULL, NULL),
+(9, 'کفش مردانه کد 321', 2.5, '2022-07-18 16:01:10', NULL, NULL),
+(10, 'تیشرت زنانه مدل 123', 4.2, '2022-07-18 16:01:13', NULL, NULL),
+(11, 'کفش زنانه مدل 23', 1.5, '2022-07-18 16:01:16', NULL, NULL),
+(12, 'لپتاپ ایسوس مدل x515', 4.5, '2022-07-18 16:01:24', NULL, NULL),
+(13, 'لپتاپ ام اس آی مدل 123', 5, '2022-07-18 16:10:43', NULL, NULL);
 
 -- --------------------------------------------------------
 
