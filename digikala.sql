@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2022 at 08:20 PM
+-- Generation Time: Jul 19, 2022 at 06:50 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -283,32 +283,79 @@ CREATE TABLE `products_categories_attributes` (
   `product_category_attribute_id` int(10) UNSIGNED NOT NULL,
   `product_ref_id` int(10) UNSIGNED NOT NULL,
   `category_attribute_ref_id` int(10) UNSIGNED NOT NULL,
-  `is_effective` tinyint(1) NOT NULL
+  `is_effective` tinyint(1) NOT NULL,
+  `is_fixed` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `products_categories_attributes`
 --
 
-INSERT INTO `products_categories_attributes` (`product_category_attribute_id`, `product_ref_id`, `category_attribute_ref_id`, `is_effective`) VALUES
-(1, 1, 53, 0),
-(3, 1, 55, 0),
-(5, 2, 54, 0),
-(6, 2, 56, 0),
-(7, 3, 44, 0),
-(9, 3, 45, 0),
-(10, 4, 43, 0),
-(11, 4, 46, 0),
-(12, 12, 35, 0),
-(13, 12, 36, 0),
-(14, 12, 48, 0),
-(15, 12, 38, 0),
-(16, 12, 39, 0),
-(17, 8, 50, 0),
-(18, 8, 16, 1),
-(19, 8, 17, 1),
-(20, 8, 21, 1),
-(21, 8, 22, 1);
+INSERT INTO `products_categories_attributes` (`product_category_attribute_id`, `product_ref_id`, `category_attribute_ref_id`, `is_effective`, `is_fixed`) VALUES
+(1, 1, 53, 0, 0),
+(3, 1, 55, 0, 0),
+(5, 2, 54, 0, 0),
+(6, 2, 56, 0, 0),
+(7, 3, 44, 0, 0),
+(9, 3, 45, 0, 0),
+(10, 4, 43, 0, 0),
+(11, 4, 46, 0, 0),
+(12, 12, 35, 0, 0),
+(13, 12, 36, 0, 0),
+(14, 12, 48, 0, 0),
+(15, 12, 38, 0, 0),
+(16, 12, 39, 0, 0),
+(17, 8, 50, 0, 0),
+(18, 8, 16, 1, 0),
+(19, 8, 17, 1, 0),
+(20, 8, 21, 1, 0),
+(21, 8, 22, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendors`
+--
+
+CREATE TABLE `vendors` (
+  `vendor_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendors_combinations_details`
+--
+
+CREATE TABLE `vendors_combinations_details` (
+  `vendor_combination_detail_id` int(10) UNSIGNED NOT NULL,
+  `vendor_combination_list_ref_id` int(10) UNSIGNED NOT NULL,
+  `product_category_attribute_ref_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendors_combinations_lists`
+--
+
+CREATE TABLE `vendors_combinations_lists` (
+  `vendor_combination_list_id` int(10) UNSIGNED NOT NULL,
+  `product_ref_id` int(10) UNSIGNED NOT NULL,
+  `vendor_ref_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendors_prices`
+--
+
+CREATE TABLE `vendors_prices` (
+  `vendor_price_id` int(10) UNSIGNED NOT NULL,
+  `vendor_combination_list_ref_id` int(10) UNSIGNED NOT NULL,
+  `price` float UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -380,6 +427,35 @@ ALTER TABLE `products_categories_attributes`
   ADD KEY `product_ref_id_2` (`product_ref_id`);
 
 --
+-- Indexes for table `vendors`
+--
+ALTER TABLE `vendors`
+  ADD PRIMARY KEY (`vendor_id`);
+
+--
+-- Indexes for table `vendors_combinations_details`
+--
+ALTER TABLE `vendors_combinations_details`
+  ADD PRIMARY KEY (`vendor_combination_detail_id`),
+  ADD KEY `vendor_combination_list_ref_id_1` (`vendor_combination_list_ref_id`),
+  ADD KEY `product_category_attribute_ref_id_3` (`product_category_attribute_ref_id`);
+
+--
+-- Indexes for table `vendors_combinations_lists`
+--
+ALTER TABLE `vendors_combinations_lists`
+  ADD PRIMARY KEY (`vendor_combination_list_id`) USING BTREE,
+  ADD KEY `vendor_ref_id_1` (`vendor_ref_id`),
+  ADD KEY `product_ref_id_6` (`product_ref_id`);
+
+--
+-- Indexes for table `vendors_prices`
+--
+ALTER TABLE `vendors_prices`
+  ADD PRIMARY KEY (`vendor_price_id`),
+  ADD KEY `vendor_combination_list_ref_id_2` (`vendor_combination_list_ref_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -438,6 +514,30 @@ ALTER TABLE `products_categories_attributes`
   MODIFY `product_category_attribute_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
+-- AUTO_INCREMENT for table `vendors`
+--
+ALTER TABLE `vendors`
+  MODIFY `vendor_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `vendors_combinations_details`
+--
+ALTER TABLE `vendors_combinations_details`
+  MODIFY `vendor_combination_detail_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `vendors_combinations_lists`
+--
+ALTER TABLE `vendors_combinations_lists`
+  MODIFY `vendor_combination_list_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `vendors_prices`
+--
+ALTER TABLE `vendors_prices`
+  MODIFY `vendor_price_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -486,6 +586,26 @@ ALTER TABLE `products_categories`
 ALTER TABLE `products_categories_attributes`
   ADD CONSTRAINT `category_attribute_ref_id_1` FOREIGN KEY (`category_attribute_ref_id`) REFERENCES `categories_attributes` (`category_attribute_id`),
   ADD CONSTRAINT `product_ref_id_2` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
+
+--
+-- Constraints for table `vendors_combinations_details`
+--
+ALTER TABLE `vendors_combinations_details`
+  ADD CONSTRAINT `product_category_attribute_ref_id_3` FOREIGN KEY (`product_category_attribute_ref_id`) REFERENCES `products_categories_attributes` (`product_category_attribute_id`),
+  ADD CONSTRAINT `vendor_combination_list_ref_id_1` FOREIGN KEY (`vendor_combination_list_ref_id`) REFERENCES `vendors_combinations_lists` (`vendor_combination_list_id`);
+
+--
+-- Constraints for table `vendors_combinations_lists`
+--
+ALTER TABLE `vendors_combinations_lists`
+  ADD CONSTRAINT `product_ref_id_6` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`),
+  ADD CONSTRAINT `vendor_ref_id_1` FOREIGN KEY (`vendor_ref_id`) REFERENCES `vendors` (`vendor_id`);
+
+--
+-- Constraints for table `vendors_prices`
+--
+ALTER TABLE `vendors_prices`
+  ADD CONSTRAINT `vendor_combination_list_ref_id_2` FOREIGN KEY (`vendor_combination_list_ref_id`) REFERENCES `vendors_combinations_lists` (`vendor_combination_list_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
