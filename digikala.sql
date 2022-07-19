@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2022 at 06:50 AM
+-- Generation Time: Jul 19, 2022 at 01:14 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -342,19 +342,8 @@ CREATE TABLE `vendors_combinations_details` (
 CREATE TABLE `vendors_combinations_lists` (
   `vendor_combination_list_id` int(10) UNSIGNED NOT NULL,
   `product_ref_id` int(10) UNSIGNED NOT NULL,
-  `vendor_ref_id` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `vendors_prices`
---
-
-CREATE TABLE `vendors_prices` (
-  `vendor_price_id` int(10) UNSIGNED NOT NULL,
-  `vendor_combination_list_ref_id` int(10) UNSIGNED NOT NULL,
-  `price` float UNSIGNED NOT NULL
+  `vendor_ref_id` int(10) UNSIGNED NOT NULL,
+  `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -449,13 +438,6 @@ ALTER TABLE `vendors_combinations_lists`
   ADD KEY `product_ref_id_6` (`product_ref_id`);
 
 --
--- Indexes for table `vendors_prices`
---
-ALTER TABLE `vendors_prices`
-  ADD PRIMARY KEY (`vendor_price_id`),
-  ADD KEY `vendor_combination_list_ref_id_2` (`vendor_combination_list_ref_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -532,12 +514,6 @@ ALTER TABLE `vendors_combinations_lists`
   MODIFY `vendor_combination_list_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `vendors_prices`
---
-ALTER TABLE `vendors_prices`
-  MODIFY `vendor_price_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
 
@@ -600,12 +576,6 @@ ALTER TABLE `vendors_combinations_details`
 ALTER TABLE `vendors_combinations_lists`
   ADD CONSTRAINT `product_ref_id_6` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`),
   ADD CONSTRAINT `vendor_ref_id_1` FOREIGN KEY (`vendor_ref_id`) REFERENCES `vendors` (`vendor_id`);
-
---
--- Constraints for table `vendors_prices`
---
-ALTER TABLE `vendors_prices`
-  ADD CONSTRAINT `vendor_combination_list_ref_id_2` FOREIGN KEY (`vendor_combination_list_ref_id`) REFERENCES `vendors_combinations_lists` (`vendor_combination_list_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
