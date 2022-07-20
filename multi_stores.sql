@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2022 at 06:05 AM
+-- Generation Time: Jul 20, 2022 at 12:37 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -29,7 +29,6 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `attributes` (
   `attribute_id` int(10) UNSIGNED NOT NULL,
-  `taxonomy_ref_id` int(10) UNSIGNED NOT NULL,
   `key` varchar(50) NOT NULL,
   `value` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -41,20 +40,20 @@ CREATE TABLE `attributes` (
 -- Dumping data for table `attributes`
 --
 
-INSERT INTO `attributes` (`attribute_id`, `taxonomy_ref_id`, `key`, `value`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'رنگ', 'آبی، نیلی، قرمز، بنفش', '2022-07-19 19:05:35', NULL, NULL),
-(2, 1, 'رم', '4GB, 8GB, 16GB', '2022-07-19 19:05:53', NULL, NULL),
-(3, 1, 'cpu', 'corei5, corei7', '2022-07-19 19:06:06', NULL, NULL),
-(4, 1, 'سایز', 'S,L,XL,XXL', '2022-07-19 19:06:45', NULL, NULL),
-(5, 2, 'نام', '', '2022-07-19 19:06:54', NULL, NULL),
-(6, 2, 'نام خانوادگی', '', '2022-07-19 19:06:59', NULL, NULL),
-(7, 2, 'سمت', '', '2022-07-19 19:07:02', NULL, NULL),
-(8, 2, 'نام کاربری', '', '2022-07-19 19:07:06', NULL, NULL),
-(9, 2, 'رمزعبور', '', '2022-07-19 19:07:10', NULL, NULL),
-(10, 3, 'کشور', 'ایران، افغانستان، پاکستان، چین، عراق', '2022-07-19 19:07:51', NULL, NULL),
-(11, 3, 'استان', 'تهران، اصفهان، فارس،کردستان', '2022-07-19 19:15:31', NULL, NULL),
-(12, 3, 'شهر', 'همدان، تهران، شیراز', '2022-07-19 19:08:17', NULL, NULL),
-(13, 3, 'سمت', 'موسس، مدیرعامل، اپراتور، ادمین', '2022-07-19 19:08:43', NULL, NULL);
+INSERT INTO `attributes` (`attribute_id`, `key`, `value`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'رنگ', 'آبی، نیلی، قرمز، بنفش', '2022-07-19 19:05:35', NULL, NULL),
+(2, 'رم', '4GB, 8GB, 16GB', '2022-07-19 19:05:53', NULL, NULL),
+(3, 'cpu', 'corei5, corei7', '2022-07-19 19:06:06', NULL, NULL),
+(4, 'سایز', 'S,L,XL,XXL', '2022-07-19 19:06:45', NULL, NULL),
+(5, 'نام', '', '2022-07-19 19:06:54', NULL, NULL),
+(6, 'نام خانوادگی', '', '2022-07-19 19:06:59', NULL, NULL),
+(7, 'سمت', '', '2022-07-19 19:07:02', NULL, NULL),
+(8, 'نام کاربری', '', '2022-07-19 19:07:06', NULL, NULL),
+(9, 'رمزعبور', '', '2022-07-19 19:07:10', NULL, NULL),
+(10, 'کشور', 'ایران، افغانستان، پاکستان، چین، عراق', '2022-07-19 19:07:51', NULL, NULL),
+(11, 'استان', 'تهران، اصفهان، فارس،کردستان', '2022-07-19 19:15:31', NULL, NULL),
+(12, 'شهر', 'همدان، تهران، شیراز', '2022-07-19 19:08:17', NULL, NULL),
+(13, 'سمت', 'موسس، مدیرعامل، اپراتور، ادمین', '2022-07-19 19:08:43', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -92,17 +91,19 @@ INSERT INTO `categories` (`category_id`, `name`, `parent_id`, `created_at`, `upd
 --
 
 CREATE TABLE `categories_attributes` (
-  `attribute_id` int(10) UNSIGNED NOT NULL,
-  `category_ref_id` int(10) UNSIGNED NOT NULL
+  `category_attribure_id` int(10) UNSIGNED NOT NULL,
+  `category_ref_id` int(10) UNSIGNED NOT NULL,
+  `attribute_ref_id` int(10) UNSIGNED NOT NULL,
+  `value` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `categories_attributes`
 --
 
-INSERT INTO `categories_attributes` (`attribute_id`, `category_ref_id`) VALUES
-(1, 3),
-(2, 3);
+INSERT INTO `categories_attributes` (`category_attribure_id`, `category_ref_id`, `attribute_ref_id`, `value`) VALUES
+(1, 3, 1, NULL),
+(2, 3, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -111,9 +112,10 @@ INSERT INTO `categories_attributes` (`attribute_id`, `category_ref_id`) VALUES
 --
 
 CREATE TABLE `prodcuts_attributes` (
-  `attribute_id` int(10) UNSIGNED NOT NULL,
+  `product_attribute_id` int(11) NOT NULL,
   `product_ref_id` int(10) UNSIGNED NOT NULL,
   `user_ref_id` int(10) UNSIGNED NOT NULL,
+  `attribute_ref_id` int(10) UNSIGNED NOT NULL,
   `value` varchar(50) NOT NULL,
   `is_effective_ref_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -122,10 +124,10 @@ CREATE TABLE `prodcuts_attributes` (
 -- Dumping data for table `prodcuts_attributes`
 --
 
-INSERT INTO `prodcuts_attributes` (`attribute_id`, `product_ref_id`, `user_ref_id`, `value`, `is_effective_ref_id`) VALUES
-(1, 1, 1, 'آبی', NULL),
-(2, 1, 1, '8GB', 1),
-(3, 1, 1, 'corei5', 1);
+INSERT INTO `prodcuts_attributes` (`product_attribute_id`, `product_ref_id`, `user_ref_id`, `attribute_ref_id`, `value`, `is_effective_ref_id`) VALUES
+(1, 1, 1, 1, 'آبی', NULL),
+(2, 1, 1, 2, '8GB', 1),
+(3, 1, 1, 3, 'corei5', 1);
 
 -- --------------------------------------------------------
 
@@ -208,8 +210,9 @@ INSERT INTO `stores` (`store_id`, `name`, `parent_id`, `created_at`, `updated_at
 --
 
 CREATE TABLE `stores_attributes` (
-  `attribute_id` int(10) UNSIGNED NOT NULL,
+  `store_attribute_id` int(10) UNSIGNED NOT NULL,
   `store_ref_id` int(10) UNSIGNED NOT NULL,
+  `attribute_ref_id` int(10) UNSIGNED NOT NULL,
   `value` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -217,31 +220,11 @@ CREATE TABLE `stores_attributes` (
 -- Dumping data for table `stores_attributes`
 --
 
-INSERT INTO `stores_attributes` (`attribute_id`, `store_ref_id`, `value`) VALUES
-(10, 1, 'ایران'),
-(11, 1, 'فارس'),
-(12, 1, 'شیراز'),
-(13, 1, 'اپراتور');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `taxonomies`
---
-
-CREATE TABLE `taxonomies` (
-  `taxonomy_id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `taxonomies`
---
-
-INSERT INTO `taxonomies` (`taxonomy_id`, `name`) VALUES
-(1, 'product,categories'),
-(2, 'users'),
-(3, 'stores');
+INSERT INTO `stores_attributes` (`store_attribute_id`, `store_ref_id`, `attribute_ref_id`, `value`) VALUES
+(1, 1, 10, 'ایران'),
+(2, 1, 11, 'فارس'),
+(3, 1, 12, 'شیراز'),
+(4, 1, 13, 'اپراتور');
 
 -- --------------------------------------------------------
 
@@ -273,8 +256,9 @@ INSERT INTO `users` (`user_id`, `store_ref_id`, `created_at`, `updated_at`, `del
 --
 
 CREATE TABLE `users_attributes` (
-  `attribute_id` int(10) UNSIGNED NOT NULL,
+  `user_attribute_id` int(10) UNSIGNED NOT NULL,
   `user_ref_id` int(10) UNSIGNED NOT NULL,
+  `attribute_ref_id` int(10) UNSIGNED NOT NULL,
   `value` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -282,12 +266,12 @@ CREATE TABLE `users_attributes` (
 -- Dumping data for table `users_attributes`
 --
 
-INSERT INTO `users_attributes` (`attribute_id`, `user_ref_id`, `value`) VALUES
-(5, 1, 'احمد'),
-(6, 1, 'احمدی'),
-(7, 1, 'اپراتور'),
-(8, 1, 'ahmad'),
-(9, 1, '123');
+INSERT INTO `users_attributes` (`user_attribute_id`, `user_ref_id`, `attribute_ref_id`, `value`) VALUES
+(1, 1, 5, 'احمد'),
+(2, 1, 6, 'احمدی'),
+(3, 1, 7, 'اپراتور'),
+(4, 1, 8, 'ahmad'),
+(5, 1, 9, '123');
 
 --
 -- Indexes for dumped tables
@@ -297,8 +281,7 @@ INSERT INTO `users_attributes` (`attribute_id`, `user_ref_id`, `value`) VALUES
 -- Indexes for table `attributes`
 --
 ALTER TABLE `attributes`
-  ADD PRIMARY KEY (`attribute_id`) USING BTREE,
-  ADD KEY `taxonomoy_ref_id_1` (`taxonomy_ref_id`);
+  ADD PRIMARY KEY (`attribute_id`) USING BTREE;
 
 --
 -- Indexes for table `categories`
@@ -310,16 +293,18 @@ ALTER TABLE `categories`
 -- Indexes for table `categories_attributes`
 --
 ALTER TABLE `categories_attributes`
-  ADD PRIMARY KEY (`attribute_id`) USING BTREE,
-  ADD KEY `category_ref_id_1` (`category_ref_id`);
+  ADD PRIMARY KEY (`category_attribure_id`) USING BTREE,
+  ADD KEY `category_ref_id_1` (`category_ref_id`),
+  ADD KEY `attribute_ref_id_4` (`attribute_ref_id`);
 
 --
 -- Indexes for table `prodcuts_attributes`
 --
 ALTER TABLE `prodcuts_attributes`
-  ADD PRIMARY KEY (`attribute_id`),
+  ADD PRIMARY KEY (`product_attribute_id`) USING BTREE,
   ADD KEY `user_ref_id_2` (`user_ref_id`),
-  ADD KEY `product_ref_id_2` (`product_ref_id`);
+  ADD KEY `product_ref_id_2` (`product_ref_id`),
+  ADD KEY `attribute_ref_id_2` (`attribute_ref_id`);
 
 --
 -- Indexes for table `products`
@@ -346,14 +331,9 @@ ALTER TABLE `stores`
 -- Indexes for table `stores_attributes`
 --
 ALTER TABLE `stores_attributes`
-  ADD PRIMARY KEY (`attribute_id`),
-  ADD KEY `store_ref_id_3` (`store_ref_id`);
-
---
--- Indexes for table `taxonomies`
---
-ALTER TABLE `taxonomies`
-  ADD PRIMARY KEY (`taxonomy_id`) USING BTREE;
+  ADD PRIMARY KEY (`store_attribute_id`) USING BTREE,
+  ADD KEY `store_ref_id_3` (`store_ref_id`),
+  ADD KEY `attribute_ref_id_5` (`attribute_ref_id`);
 
 --
 -- Indexes for table `users`
@@ -366,8 +346,9 @@ ALTER TABLE `users`
 -- Indexes for table `users_attributes`
 --
 ALTER TABLE `users_attributes`
-  ADD PRIMARY KEY (`attribute_id`),
-  ADD KEY `user_ref_id_4` (`user_ref_id`);
+  ADD PRIMARY KEY (`user_attribute_id`) USING BTREE,
+  ADD KEY `user_ref_id_4` (`user_ref_id`),
+  ADD KEY `attribute_ref_id_3` (`attribute_ref_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -384,6 +365,18 @@ ALTER TABLE `attributes`
 --
 ALTER TABLE `categories`
   MODIFY `category_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `categories_attributes`
+--
+ALTER TABLE `categories_attributes`
+  MODIFY `category_attribure_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `prodcuts_attributes`
+--
+ALTER TABLE `prodcuts_attributes`
+  MODIFY `product_attribute_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -404,10 +397,10 @@ ALTER TABLE `stores`
   MODIFY `store_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `taxonomies`
+-- AUTO_INCREMENT for table `stores_attributes`
 --
-ALTER TABLE `taxonomies`
-  MODIFY `taxonomy_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `stores_attributes`
+  MODIFY `store_attribute_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -416,26 +409,27 @@ ALTER TABLE `users`
   MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for table `users_attributes`
 --
+ALTER TABLE `users_attributes`
+  MODIFY `user_attribute_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- Constraints for table `attributes`
+-- Constraints for dumped tables
 --
-ALTER TABLE `attributes`
-  ADD CONSTRAINT `taxonomoy_ref_id_1` FOREIGN KEY (`taxonomy_ref_id`) REFERENCES `taxonomies` (`taxonomy_id`);
 
 --
 -- Constraints for table `categories_attributes`
 --
 ALTER TABLE `categories_attributes`
-  ADD CONSTRAINT `attribute_ref_id_4` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`attribute_id`),
+  ADD CONSTRAINT `attribute_ref_id_4` FOREIGN KEY (`attribute_ref_id`) REFERENCES `attributes` (`attribute_id`),
   ADD CONSTRAINT `category_ref_id_1` FOREIGN KEY (`category_ref_id`) REFERENCES `categories` (`category_id`);
 
 --
 -- Constraints for table `prodcuts_attributes`
 --
 ALTER TABLE `prodcuts_attributes`
+  ADD CONSTRAINT `attribute_ref_id_2` FOREIGN KEY (`attribute_ref_id`) REFERENCES `attributes` (`attribute_id`),
   ADD CONSTRAINT `product_ref_id_2` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`),
   ADD CONSTRAINT `user_ref_id_2` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
 
@@ -451,7 +445,7 @@ ALTER TABLE `products_prices`
 -- Constraints for table `stores_attributes`
 --
 ALTER TABLE `stores_attributes`
-  ADD CONSTRAINT `attribute_ref_id_5` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`attribute_id`),
+  ADD CONSTRAINT `attribute_ref_id_5` FOREIGN KEY (`attribute_ref_id`) REFERENCES `attributes` (`attribute_id`),
   ADD CONSTRAINT `store_ref_id_3` FOREIGN KEY (`store_ref_id`) REFERENCES `stores` (`store_id`);
 
 --
@@ -464,7 +458,7 @@ ALTER TABLE `users`
 -- Constraints for table `users_attributes`
 --
 ALTER TABLE `users_attributes`
-  ADD CONSTRAINT `attribute_ref_id_3` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`attribute_id`),
+  ADD CONSTRAINT `attribute_ref_id_3` FOREIGN KEY (`attribute_ref_id`) REFERENCES `attributes` (`attribute_id`),
   ADD CONSTRAINT `user_ref_id_4` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
