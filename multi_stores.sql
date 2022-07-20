@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2022 at 10:21 PM
+-- Generation Time: Jul 20, 2022 at 06:05 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -123,7 +123,7 @@ CREATE TABLE `prodcuts_attributes` (
 --
 
 INSERT INTO `prodcuts_attributes` (`attribute_id`, `product_ref_id`, `user_ref_id`, `value`, `is_effective_ref_id`) VALUES
-(1, 1, 1, 'آبی،قرمز', NULL),
+(1, 1, 1, 'آبی', NULL),
 (2, 1, 1, '8GB', 1),
 (3, 1, 1, 'corei5', 1);
 
@@ -161,7 +161,6 @@ CREATE TABLE `products_prices` (
   `product_price_id` int(10) UNSIGNED NOT NULL,
   `is_effective_id` tinyint(1) UNSIGNED DEFAULT NULL,
   `product_ref_id` int(10) UNSIGNED NOT NULL,
-  `product_attribute_ref_id` varchar(255) NOT NULL COMMENT '{key1:value1, key2:value2}',
   `user_ref_id` int(10) UNSIGNED NOT NULL,
   `store_ref_id` int(10) UNSIGNED NOT NULL,
   `price` float UNSIGNED NOT NULL,
@@ -172,8 +171,8 @@ CREATE TABLE `products_prices` (
 -- Dumping data for table `products_prices`
 --
 
-INSERT INTO `products_prices` (`product_price_id`, `is_effective_id`, `product_ref_id`, `product_attribute_ref_id`, `user_ref_id`, `store_ref_id`, `price`, `qty`) VALUES
-(1, 1, 1, '{1:blue, 2:8GB, 3:corei7}', 1, 1, 2000, 20);
+INSERT INTO `products_prices` (`product_price_id`, `is_effective_id`, `product_ref_id`, `user_ref_id`, `store_ref_id`, `price`, `qty`) VALUES
+(1, 1, 1, 1, 1, 2000, 20);
 
 -- --------------------------------------------------------
 
