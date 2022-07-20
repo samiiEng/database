@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2022 at 12:37 PM
+-- Generation Time: Jul 20, 2022 at 12:49 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -114,20 +114,19 @@ INSERT INTO `categories_attributes` (`category_attribure_id`, `category_ref_id`,
 CREATE TABLE `prodcuts_attributes` (
   `product_attribute_id` int(11) NOT NULL,
   `product_ref_id` int(10) UNSIGNED NOT NULL,
-  `user_ref_id` int(10) UNSIGNED NOT NULL,
   `attribute_ref_id` int(10) UNSIGNED NOT NULL,
   `value` varchar(50) NOT NULL,
-  `is_effective_ref_id` int(11) DEFAULT NULL
+  `is_effective_ref_id` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `prodcuts_attributes`
 --
 
-INSERT INTO `prodcuts_attributes` (`product_attribute_id`, `product_ref_id`, `user_ref_id`, `attribute_ref_id`, `value`, `is_effective_ref_id`) VALUES
-(1, 1, 1, 1, 'آبی', NULL),
-(2, 1, 1, 2, '8GB', 1),
-(3, 1, 1, 3, 'corei5', 1);
+INSERT INTO `prodcuts_attributes` (`product_attribute_id`, `product_ref_id`, `attribute_ref_id`, `value`, `is_effective_ref_id`) VALUES
+(1, 1, 1, 'آبی', NULL),
+(2, 1, 2, '8GB', 1),
+(3, 1, 3, 'corei5', 1);
 
 -- --------------------------------------------------------
 
@@ -161,8 +160,8 @@ INSERT INTO `products` (`product_id`, `name`, `stars`, `parent`, `created_at`, `
 
 CREATE TABLE `products_prices` (
   `product_price_id` int(10) UNSIGNED NOT NULL,
-  `is_effective_id` tinyint(1) UNSIGNED DEFAULT NULL,
   `product_ref_id` int(10) UNSIGNED NOT NULL,
+  `is_effective_id` tinyint(1) UNSIGNED DEFAULT NULL,
   `user_ref_id` int(10) UNSIGNED NOT NULL,
   `store_ref_id` int(10) UNSIGNED NOT NULL,
   `price` float UNSIGNED NOT NULL,
@@ -173,7 +172,7 @@ CREATE TABLE `products_prices` (
 -- Dumping data for table `products_prices`
 --
 
-INSERT INTO `products_prices` (`product_price_id`, `is_effective_id`, `product_ref_id`, `user_ref_id`, `store_ref_id`, `price`, `qty`) VALUES
+INSERT INTO `products_prices` (`product_price_id`, `product_ref_id`, `is_effective_id`, `user_ref_id`, `store_ref_id`, `price`, `qty`) VALUES
 (1, 1, 1, 1, 1, 2000, 20);
 
 -- --------------------------------------------------------
@@ -302,7 +301,6 @@ ALTER TABLE `categories_attributes`
 --
 ALTER TABLE `prodcuts_attributes`
   ADD PRIMARY KEY (`product_attribute_id`) USING BTREE,
-  ADD KEY `user_ref_id_2` (`user_ref_id`),
   ADD KEY `product_ref_id_2` (`product_ref_id`),
   ADD KEY `attribute_ref_id_2` (`attribute_ref_id`);
 
@@ -430,8 +428,7 @@ ALTER TABLE `categories_attributes`
 --
 ALTER TABLE `prodcuts_attributes`
   ADD CONSTRAINT `attribute_ref_id_2` FOREIGN KEY (`attribute_ref_id`) REFERENCES `attributes` (`attribute_id`),
-  ADD CONSTRAINT `product_ref_id_2` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`),
-  ADD CONSTRAINT `user_ref_id_2` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `product_ref_id_2` FOREIGN KEY (`product_ref_id`) REFERENCES `products` (`product_id`);
 
 --
 -- Constraints for table `products_prices`
