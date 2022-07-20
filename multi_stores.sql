@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2022 at 12:49 PM
+-- Generation Time: Jul 20, 2022 at 12:55 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -138,7 +138,7 @@ CREATE TABLE `products` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(50) NOT NULL,
   `stars` int(11) DEFAULT NULL,
-  `parent` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL COMMENT 'another type of the same model(name field)',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -148,8 +148,8 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `name`, `stars`, `parent`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'لپتاپ', 4, NULL, '2022-07-19 20:00:37', NULL, NULL),
+INSERT INTO `products` (`product_id`, `name`, `stars`, `parent_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'lenovo x11', 4, NULL, '2022-07-20 10:54:20', NULL, NULL),
 (2, 'موبایل', 3, NULL, '2022-07-19 20:00:55', NULL, NULL);
 
 -- --------------------------------------------------------
