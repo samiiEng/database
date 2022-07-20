@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2022 at 12:55 PM
+-- Generation Time: Jul 20, 2022 at 01:30 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `attributes` (
   `attribute_id` int(10) UNSIGNED NOT NULL,
   `key` varchar(50) NOT NULL,
-  `value` varchar(255) NOT NULL,
+  `value` longtext NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -150,7 +150,7 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`product_id`, `name`, `stars`, `parent_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'lenovo x11', 4, NULL, '2022-07-20 10:54:20', NULL, NULL),
-(2, 'موبایل', 3, NULL, '2022-07-19 20:00:55', NULL, NULL);
+(2, 'lanovo x11', 3, NULL, '2022-07-20 11:07:59', NULL, NULL);
 
 -- --------------------------------------------------------
 
