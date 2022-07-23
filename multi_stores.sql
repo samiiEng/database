@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2022 at 06:12 AM
+-- Generation Time: Jul 23, 2022 at 06:30 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -70,14 +70,19 @@ CREATE TABLE `carts` (
   `country_ref_id` int(10) UNSIGNED NOT NULL,
   `province_ref_id` int(10) UNSIGNED NOT NULL,
   `city_ref_id` int(10) UNSIGNED NOT NULL,
-  `address` varchar(255) NOT NULL,
+  `destination_address` varchar(255) NOT NULL,
   `total_price` float NOT NULL,
   `total_discount` float DEFAULT NULL,
   `shipping_price` float NOT NULL,
   `final_price` float NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
-  `store_ref_id` int(10) UNSIGNED NOT NULL
+  `store_ref_id` int(10) UNSIGNED NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `mobile_number` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `user_address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -188,14 +193,20 @@ CREATE TABLE `orders` (
   `total_discount` float DEFAULT NULL,
   `shipping_price` float NOT NULL,
   `final_price` float NOT NULL,
+  `user_ref_id` int(10) UNSIGNED NOT NULL,
   `country_ref_id` int(10) UNSIGNED NOT NULL,
   `province_ref_id` int(10) UNSIGNED NOT NULL,
   `city_ref_id` int(10) UNSIGNED NOT NULL,
-  `address` varchar(255) DEFAULT NULL,
+  `destination_address` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `store_ref_id` int(10) UNSIGNED NOT NULL
+  `store_ref_id` int(10) UNSIGNED NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `mobile_number` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `user_address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -232,10 +243,16 @@ CREATE TABLE `payments` (
   `transaction_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL,
+  `user_ref_id` int(10) UNSIGNED NOT NULL,
   `order_ref_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `mobile_number` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `user_address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -482,7 +499,8 @@ ALTER TABLE `orders`
   ADD KEY `country_ref_id_6` (`country_ref_id`),
   ADD KEY `province_ref_id_6` (`province_ref_id`),
   ADD KEY `city_ref_id_6` (`city_ref_id`),
-  ADD KEY `store_ref_id_4` (`store_ref_id`);
+  ADD KEY `store_ref_id_4` (`store_ref_id`),
+  ADD KEY `user_ref_id_9` (`user_ref_id`);
 
 --
 -- Indexes for table `order_items`
@@ -499,7 +517,8 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`payment_id`),
-  ADD KEY `order_ref_id_2` (`order_ref_id`);
+  ADD KEY `order_ref_id_2` (`order_ref_id`),
+  ADD KEY `user_ref_id_8` (`user_ref_id`);
 
 --
 -- Indexes for table `prodcuts_attributes`
@@ -704,7 +723,8 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `city_ref_id_6` FOREIGN KEY (`city_ref_id`) REFERENCES `cities` (`city_id`),
   ADD CONSTRAINT `country_ref_id_6` FOREIGN KEY (`country_ref_id`) REFERENCES `countries` (`country_id`),
   ADD CONSTRAINT `province_ref_id_6` FOREIGN KEY (`province_ref_id`) REFERENCES `provinces` (`province_id`),
-  ADD CONSTRAINT `store_ref_id_4` FOREIGN KEY (`store_ref_id`) REFERENCES `stores` (`store_id`);
+  ADD CONSTRAINT `store_ref_id_4` FOREIGN KEY (`store_ref_id`) REFERENCES `stores` (`store_id`),
+  ADD CONSTRAINT `user_ref_id_9` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `order_items`
@@ -719,7 +739,8 @@ ALTER TABLE `order_items`
 -- Constraints for table `payments`
 --
 ALTER TABLE `payments`
-  ADD CONSTRAINT `order_ref_id_2` FOREIGN KEY (`order_ref_id`) REFERENCES `orders` (`order_id`);
+  ADD CONSTRAINT `order_ref_id_2` FOREIGN KEY (`order_ref_id`) REFERENCES `orders` (`order_id`),
+  ADD CONSTRAINT `user_ref_id_8` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `prodcuts_attributes`
