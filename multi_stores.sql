@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2022 at 06:30 AM
+-- Generation Time: Jul 23, 2022 at 07:44 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -67,7 +67,6 @@ CREATE TABLE `carts` (
   `sid` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
   `status` varchar(50) NOT NULL,
-  `country_ref_id` int(10) UNSIGNED NOT NULL,
   `province_ref_id` int(10) UNSIGNED NOT NULL,
   `city_ref_id` int(10) UNSIGNED NOT NULL,
   `destination_address` varchar(255) NOT NULL,
@@ -77,12 +76,7 @@ CREATE TABLE `carts` (
   `final_price` float NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
-  `store_ref_id` int(10) UNSIGNED NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `mobile_number` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `user_address` varchar(255) NOT NULL
+  `store_ref_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -194,19 +188,13 @@ CREATE TABLE `orders` (
   `shipping_price` float NOT NULL,
   `final_price` float NOT NULL,
   `user_ref_id` int(10) UNSIGNED NOT NULL,
-  `country_ref_id` int(10) UNSIGNED NOT NULL,
   `province_ref_id` int(10) UNSIGNED NOT NULL,
   `city_ref_id` int(10) UNSIGNED NOT NULL,
   `destination_address` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `store_ref_id` int(10) UNSIGNED NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `mobile_number` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `user_address` varchar(255) NOT NULL
+  `store_ref_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -247,12 +235,7 @@ CREATE TABLE `payments` (
   `order_ref_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `mobile_number` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `user_address` varchar(255) DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -371,11 +354,6 @@ CREATE TABLE `stores` (
   `country_ref_id` int(10) UNSIGNED NOT NULL,
   `province_ref_id` int(10) UNSIGNED NOT NULL,
   `city_ref_id` int(10) UNSIGNED NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `total_price` float NOT NULL,
-  `total_discount` float DEFAULT NULL,
-  `shipping_price` float NOT NULL,
-  `final_price` float NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -392,8 +370,6 @@ CREATE TABLE `stores_products_prices` (
   `product_price_ref_id` int(10) UNSIGNED NOT NULL,
   `product_ref_id` int(10) UNSIGNED NOT NULL,
   `shop_ref_id` int(10) UNSIGNED NOT NULL,
-  `price` float NOT NULL,
-  `discount` float DEFAULT NULL,
   `qty` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
@@ -450,7 +426,6 @@ ALTER TABLE `attributes`
 ALTER TABLE `carts`
   ADD PRIMARY KEY (`cart_id`),
   ADD KEY `user_ref_id_3` (`user_ref_id`),
-  ADD KEY `country_ref_id_4` (`country_ref_id`),
   ADD KEY `province_ref_id_4` (`province_ref_id`),
   ADD KEY `city_ref_id_4` (`city_ref_id`),
   ADD KEY `store_ref_id_5` (`store_ref_id`);
@@ -496,7 +471,6 @@ ALTER TABLE `countries`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `country_ref_id_6` (`country_ref_id`),
   ADD KEY `province_ref_id_6` (`province_ref_id`),
   ADD KEY `city_ref_id_6` (`city_ref_id`),
   ADD KEY `store_ref_id_4` (`store_ref_id`),
@@ -695,7 +669,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `carts`
   ADD CONSTRAINT `city_ref_id_4` FOREIGN KEY (`city_ref_id`) REFERENCES `cities` (`city_id`),
-  ADD CONSTRAINT `country_ref_id_4` FOREIGN KEY (`country_ref_id`) REFERENCES `countries` (`country_id`),
   ADD CONSTRAINT `province_ref_id_4` FOREIGN KEY (`province_ref_id`) REFERENCES `provinces` (`province_id`),
   ADD CONSTRAINT `store_ref_id_5` FOREIGN KEY (`store_ref_id`) REFERENCES `stores` (`store_id`),
   ADD CONSTRAINT `user_ref_id_3` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
@@ -721,7 +694,6 @@ ALTER TABLE `categories_attributes`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `city_ref_id_6` FOREIGN KEY (`city_ref_id`) REFERENCES `cities` (`city_id`),
-  ADD CONSTRAINT `country_ref_id_6` FOREIGN KEY (`country_ref_id`) REFERENCES `countries` (`country_id`),
   ADD CONSTRAINT `province_ref_id_6` FOREIGN KEY (`province_ref_id`) REFERENCES `provinces` (`province_id`),
   ADD CONSTRAINT `store_ref_id_4` FOREIGN KEY (`store_ref_id`) REFERENCES `stores` (`store_id`),
   ADD CONSTRAINT `user_ref_id_9` FOREIGN KEY (`user_ref_id`) REFERENCES `users` (`user_id`);
